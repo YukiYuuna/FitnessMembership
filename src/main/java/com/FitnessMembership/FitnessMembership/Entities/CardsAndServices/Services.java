@@ -1,15 +1,17 @@
-package com.FitnessMembership.FitnessMembership.Entities;
+package com.FitnessMembership.FitnessMembership.Entities.CardsAndServices;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Optional;
+import java.util.Set;
 
 @Entity
 public class Services {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
+
+    @ManyToMany(mappedBy = "CardServices")
+    private Set<Card> ServicedCards;
 
     private String serviceName;
 
@@ -36,5 +38,10 @@ public class Services {
     }
 
     public Services() {
+    }
+
+    public Services(String serviceName, String description) {
+        this.serviceName = serviceName;
+        this.description = description;
     }
 }

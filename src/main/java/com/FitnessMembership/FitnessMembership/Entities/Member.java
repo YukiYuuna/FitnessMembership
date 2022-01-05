@@ -1,5 +1,7 @@
 package com.FitnessMembership.FitnessMembership.Entities;
 
+import com.FitnessMembership.FitnessMembership.Entities.CardsAndServices.Card;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,7 +15,9 @@ public class Member {
 
     private String lastName;
 
-    private String Email;
+    private String email;
+
+    private String address;
 
     private String username;
 
@@ -23,6 +27,20 @@ public class Member {
 
     @ManyToOne
     private Card card = new Card();
+
+    public Member() {
+    }
+
+    public Member(String firstName, String lastName, String email, String address, String username, String password, String phoneNumber, Card card) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.address = address;
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.card = card;
+    }
 
     public Long getId() {
         return Id;
@@ -36,19 +54,6 @@ public class Member {
         this.firstName = firstName;
     }
 
-    public Member() {
-    }
-
-    public Member(String firstName, String lastName, String email, String username, String password, String phoneNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        Email = email;
-        this.username = username;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.card = card;
-    }
-
     public String getLastName() {
         return lastName;
     }
@@ -58,11 +63,11 @@ public class Member {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+       this.email = email;
     }
 
     public String getUsername() {
@@ -97,4 +102,13 @@ public class Member {
         this.card = card;
     }
 
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String adress) {
+        this.address = adress;
+    }
 }
