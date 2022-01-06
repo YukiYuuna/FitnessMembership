@@ -1,6 +1,7 @@
 package com.FitnessMembership.FitnessMembership.Entities.CardsAndServices;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ public class Services {
     Long Id;
 
     @ManyToMany(mappedBy = "CardServices")
-    private Set<Card> ServicedCards;
+    private List<Card> ServicedCards;
 
     private String serviceName;
 

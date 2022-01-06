@@ -5,12 +5,12 @@ import com.FitnessMembership.FitnessMembership.Entities.CardsAndServices.Service
 import com.FitnessMembership.FitnessMembership.Repositories.CardsAndServices.CardRepository;
 import com.FitnessMembership.FitnessMembership.Repositories.CardsAndServices.ServiceRepository;
 import com.FitnessMembership.FitnessMembership.payload.request.CardRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.net.URI;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -26,10 +26,13 @@ public class CardController {
     }
 
 
-    @PostMapping("/save")
-    public ResponseEntity<?> saveCard(@RequestBody CardRequest cardRequest)
+    @PostMapping(value = "/save" ,
+    consumes = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<CardRequest> saveCard(@RequestBody CardRequest cardRequest)
     {
-        Set<Services> servicesSet = new HashSet<>();
+        List<Services> servicesSet = new ArrayList<Services>();
         for(Services service : cardRequest.getCardServices())
         {
             servicesSet.add(service);
@@ -37,7 +40,6 @@ public class CardController {
 
         Card card = new Card(cardRequest.getAbonamentPeriod() , servicesSet);
 
-        return ResponseEntity.ok("New card is saved with id: " + card.getId());
+        return ResponseEntity.ok(cardRequest);
     }
-
 }

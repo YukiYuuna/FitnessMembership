@@ -42,7 +42,7 @@ public class MemberController {
         return ResponseEntity.ok(customer.get());
     }
 
-   /* @PostMapping("/save")
+    @PostMapping("/save")
     public ResponseEntity<?> saveMember(String firstName , String lastName
             , String Email , String Address , String phoneNumber , String username , String password , Long CardId)
     {
@@ -60,7 +60,7 @@ public class MemberController {
         }
 
         else return ResponseEntity.ok("Member  is already registered!");
-    }*/
+    }
     /*
     public boolean isNewMember(Member member)
     {

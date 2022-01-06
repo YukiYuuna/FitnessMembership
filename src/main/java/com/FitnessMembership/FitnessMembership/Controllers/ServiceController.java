@@ -25,7 +25,7 @@ public class ServiceController {
         this.serviceRepo = serviceRepo;
     }
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public ResponseEntity<?> saveService(String serviceName , String description) {
 
         return ResponseEntity.ok(serviceRepo.save(new Services(serviceName , description)));

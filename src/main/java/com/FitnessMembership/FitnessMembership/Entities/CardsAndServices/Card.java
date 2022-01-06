@@ -3,6 +3,7 @@ package com.FitnessMembership.FitnessMembership.Entities.CardsAndServices;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,12 +36,12 @@ public class Card {
             @JoinTable(name = "CardServices"
             , joinColumns = @JoinColumn(name = "CardId"),
                     inverseJoinColumns = @JoinColumn(name = "ServiceId"))
-    Set<Services> CardServices;
+    List<Services> CardServices;
 
 
     //Нова карта ще създаваме само с абонаментен период и видове услуги , другите полета си ги призчисляваме
     // и са си за нас
-    public Card(int abonamentPeriod ,  Set<Services> cardServices) {
+    public Card(int abonamentPeriod ,  List<Services> cardServices) {
         ++serialNumber;
 
         //При създаване абонамента е задължителен , тъй че по дефоут е валидна
@@ -78,7 +79,7 @@ public class Card {
         this.valid = valid;
     }
 
-    public Set<Services> getCardServices() {
+    public List<Services> getCardServices() {
         return CardServices;
     }
 
