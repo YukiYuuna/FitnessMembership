@@ -31,6 +31,7 @@ public class MemberController {
         return ResponseEntity.ok(memberRepo.findAll());
     }
 
+
     @GetMapping("/find")
     public ResponseEntity<?> findMember(String firstName , String lastName)
     {

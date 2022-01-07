@@ -15,6 +15,4 @@ public interface MemberRepository extends JpaRepository<Member , Long> {
             String firstName , String lastName , String Email,
             String Address , String phoneNumber , String username , String password);
 
-
-
 }
