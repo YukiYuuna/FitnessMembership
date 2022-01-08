@@ -62,13 +62,14 @@ public class MemberController {
 
         else return ResponseEntity.ok("Member  is already registered!");
     }
-    /*
-    public boolean isNewMember(Member member)
+
+
+    /*public boolean isNewMember(Member member)
     {
         Optional<Member> _member = memberRepo.findMemberByFirstNameAndLastName(member.getFirstName() , member.getLastName());
 
         if((member.getFirstName().isEmpty())
-                || (member.getAdress() != _member.get().getAdress()
+                || (member.getAddress() != _member.get().getAddress()
                 && member.getPhoneNumber() != _member.get().getPhoneNumber()
                 && member.getEmail() != _member.get().getEmail())
                 && member.getUsername() != _member.get().getUsername()
@@ -76,10 +77,6 @@ public class MemberController {
         return true;
 
         return false;
-    }*/
-
-
-
-
-
+    }
+*/
 }

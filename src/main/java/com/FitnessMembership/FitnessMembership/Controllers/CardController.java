@@ -26,20 +26,36 @@ public class CardController {
     }
 
 
-    @PostMapping(value = "/save" ,
-    consumes = {
-        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-    produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<CardRequest> saveCard(@RequestBody CardRequest cardRequest)
+
+    @PostMapping( "/save" )
+    public ResponseEntity<?> saveCard(@RequestBody CardRequest cardRequest)
     {
-        List<Services> servicesSet = new ArrayList<Services>();
-        for(Services service : cardRequest.getCardServices())
+
+
+        if(validateTimePeriod(cardRequest.getAbonamentPeriod()) == false)
         {
-            servicesSet.add(service);
+            return ResponseEntity.ok("Tupi ti sa mesecite");
+        }
+                List<Services> servicesSet = new ArrayList<Services>();
+                for (Services servicename : cardRequest.getCardServices()) {
+                     Services service = serviceRepo.findServiceByServiceName(servicename.getServiceName());
+                     servicesSet.add(service);
+                }
+
+                Card card = new Card(cardRequest.getAbonamentPeriod(), servicesSet);
+                cardRepo.save(card);
+
+                return ResponseEntity.ok("Ehoo prostachkoo imash karta");
+
         }
 
-        Card card = new Card(cardRequest.getAbonamentPeriod() , servicesSet);
 
-        return ResponseEntity.ok(cardRequest);
+
+    public boolean validateTimePeriod(int abonamentPeriod){
+        if(abonamentPeriod ==1 || abonamentPeriod == 3 || abonamentPeriod == 6 || abonamentPeriod == 12 )
+            return true;
+        else
+            return false;
+
     }
 }

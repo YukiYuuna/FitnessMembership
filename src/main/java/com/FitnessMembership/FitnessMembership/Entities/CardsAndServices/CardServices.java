@@ -18,7 +18,6 @@ public class CardServices implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long ServiceId;
 
-
     public Long getCardId() {
         return CardId;
     }

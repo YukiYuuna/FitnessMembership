@@ -17,7 +17,7 @@ public class CardRequest implements Serializable{
         return abonamentPeriod;
     }
 
-    public void setAbonamentPeriod(int abonamentPeriodl) {
+    public void setAbonamentPeriod(int abonamentPeriod) {
         this.abonamentPeriod = abonamentPeriod;
     }
 

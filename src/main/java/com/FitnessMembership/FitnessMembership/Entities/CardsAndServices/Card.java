@@ -23,10 +23,13 @@ public class Card {
 
     private LocalDate expirationDate;
 
-    //Ще се въвежда в месеци , при карта с 8 , 16 .... тренировки ще важи един месец
-    static private int [] abonamentPeriods = {1 , 3 , 6 , 12};
 
     private int abonamentPeriod;
+
+    //Макс брой посещения - месец
+    private int maxVisits;
+
+    private boolean fixedVisits;
 
     //Ще брой броя на посещенията и ще се нулира в конструктора ;)
     //private int visitsCounter;
@@ -52,8 +55,24 @@ public class Card {
 
         //Изчисляваме до кога е валидна
         this.expirationDate = LocalDate.now().plusMonths(abonamentPeriod);
-        this.abonamentPeriod = abonamentPeriods[abonamentPeriod];
+        this.abonamentPeriod = abonamentPeriod;
 
+        //this.visitsCounter = visitsCounter;
+        this.CardServices = cardServices;
+    }
+
+    public Card(int maxVisits , List<Services> cardServices,boolean fixedVisits) {
+        ++serialNumber;
+
+        //При създаване абонамента е задължителен , тъй че по дефоут е валидна
+        this.valid = true;
+
+
+        this.cardCharged = new Timestamp(System.currentTimeMillis());
+
+        //Изчисляваме до кога е валидна
+        this.expirationDate = LocalDate.now().plusMonths(abonamentPeriod);
+        this.abonamentPeriod = abonamentPeriod;
 
         //this.visitsCounter = visitsCounter;
         this.CardServices = cardServices;
