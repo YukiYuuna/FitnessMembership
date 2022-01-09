@@ -4,16 +4,24 @@ import com.FitnessMembership.FitnessMembership.Entities.CardsAndServices.Service
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class CardRequest implements Serializable{
+
+    public boolean isWoman() {
+        return isWoman;
+    }
+
+    public void setWoman(boolean woman) {
+        this.isWoman = woman;
+    }
+
+    private boolean isWoman;
 
     private int abonamentPeriod;
 
     private List<Services> cardServices;
 
-    public int getAbonamentPeriod() {
+    public int getSubscriptionPeriod() {
         return abonamentPeriod;
     }
 

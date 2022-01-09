@@ -5,11 +5,9 @@ import com.FitnessMembership.FitnessMembership.Entities.CardsAndServices.Service
 import com.FitnessMembership.FitnessMembership.Repositories.CardsAndServices.CardRepository;
 import com.FitnessMembership.FitnessMembership.Repositories.CardsAndServices.ServiceRepository;
 import com.FitnessMembership.FitnessMembership.payload.request.CardRequest;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.*;
 
 @RestController
@@ -26,36 +24,44 @@ public class CardController {
     }
 
 
-
     @PostMapping( "/save" )
     public ResponseEntity<?> saveCard(@RequestBody CardRequest cardRequest)
     {
 
-
-        if(validateTimePeriod(cardRequest.getAbonamentPeriod()) == false)
+        if(!validateTimePeriod(cardRequest.getSubscriptionPeriod()))
         {
-            return ResponseEntity.ok("Tupi ti sa mesecite");
+            return  ResponseEntity.badRequest().body("Tupi ti sa mesecite");
         }
-                List<Services> servicesSet = new ArrayList<Services>();
+                List<Services> services = new ArrayList<Services>();
                 for (Services servicename : cardRequest.getCardServices()) {
                      Services service = serviceRepo.findServiceByServiceName(servicename.getServiceName());
-                     servicesSet.add(service);
+
+
+                     services.add(service);
                 }
 
-                Card card = new Card(cardRequest.getAbonamentPeriod(), servicesSet);
+                Card card = new Card(cardRequest.getSubscriptionPeriod(), services, cardRequest.isWoman());
                 cardRepo.save(card);
 
-                return ResponseEntity.ok("Ehoo prostachkoo imash karta");
-
+                return ResponseEntity.ok("Ehoo prostachkoo imash karta" );
         }
+    /*    public boolean validateService(Services serviceDb, Services inputService ){
 
+        if(serviceDb.getServiceName() == inputService.getServiceName()
+                && serviceDb.getDescription() == inputService.getDescription())
+        return true;
+        else
+            return false;
+        }*/
 
+    //delete
 
-    public boolean validateTimePeriod(int abonamentPeriod){
-        if(abonamentPeriod ==1 || abonamentPeriod == 3 || abonamentPeriod == 6 || abonamentPeriod == 12 )
+    //tutorial hibernate & spring
+
+    public boolean validateTimePeriod(int subscriptionPeriod){
+        if(subscriptionPeriod ==1 || subscriptionPeriod == 3 || subscriptionPeriod == 6 || subscriptionPeriod == 12 )
             return true;
         else
             return false;
-
     }
 }

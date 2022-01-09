@@ -15,6 +15,7 @@ import java.util.Set;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/service")
+
 public class ServiceController {
 
     private final CardRepository cardRepo;
@@ -25,12 +26,13 @@ public class ServiceController {
         this.serviceRepo = serviceRepo;
     }
 
+
     @PostMapping("/save")
     public ResponseEntity<?> saveService(String serviceName , String description) {
 
         return ResponseEntity.ok(serviceRepo.save(new Services(serviceName , description)));
-    }
 
+    }
 
 
     /*@PostMapping("save")

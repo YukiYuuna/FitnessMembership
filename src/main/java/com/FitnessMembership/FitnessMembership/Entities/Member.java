@@ -9,7 +9,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id;
+    private Long Id;
 
     private String firstName;
 
@@ -25,7 +25,9 @@ public class Member {
 
     private String phoneNumber;
 
-    @ManyToOne
+    @ManyToOne ()
+
+
     private Card card = new Card();
 
     public Member() {
@@ -101,7 +103,6 @@ public class Member {
     public void setCard(Card card) {
         this.card = card;
     }
-
 
 
     public String getAddress() {

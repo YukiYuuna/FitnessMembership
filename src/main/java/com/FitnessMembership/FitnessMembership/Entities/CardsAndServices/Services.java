@@ -11,16 +11,12 @@ public class Services {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
 
-    @ManyToMany(mappedBy = "CardServices")
-    private List<Card> ServicedCards;
+    @OneToMany(mappedBy = "services")
+    private Set<CardServices> services;
 
     private String serviceName;
 
     private String description;
-
-    public Long getId() {
-        return Id;
-    }
 
     public String getServiceName() {
         return serviceName;
@@ -38,6 +34,30 @@ public class Services {
         this.description = description;
     }
 
+       /* @ManyToMany(mappedBy = "CardServices")
+        private List<Card> ServicedCards;
+
+
+
+        public Long getId() {
+            return Id;
+        }
+
+
+*/
+
+    public Long getId() {
+        return Id;
+    }
+
+    public Set<CardServices> getServices() {
+        return services;
+    }
+
+    public void setServices(Set<CardServices> services) {
+        this.services = services;
+    }
+
     public Services() {
     }
 
@@ -47,4 +67,5 @@ public class Services {
         this.serviceName = serviceName;
         this.description = description;
     }
+
 }

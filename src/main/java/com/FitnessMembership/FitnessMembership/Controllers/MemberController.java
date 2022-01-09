@@ -23,45 +23,39 @@ public class MemberController {
     }
 
     @GetMapping("/fetch")
-    public ResponseEntity<?> GetAllMembers()
-    {
-        if(memberRepo.findAll().isEmpty())
-            return ResponseEntity.ok("The Database Is Empty!");
+    public ResponseEntity<?> GetAllMembers() {
+        if (memberRepo.findAll().isEmpty())
+            return ResponseEntity.noContent().build();
 
         return ResponseEntity.ok(memberRepo.findAll());
     }
 
 
     @GetMapping("/find")
-    public ResponseEntity<?> findMember(String firstName , String lastName)
-    {
-        Optional<Member> customer = memberRepo.findMemberByFirstNameAndLastName(firstName , lastName);
-        if(customer.isEmpty())
-        {
+    public ResponseEntity<?> findMember(String firstName, String lastName) {
+        Optional<Member> customer = memberRepo.findMemberByFirstNameAndLastName(firstName, lastName);
+        if (customer.isEmpty()) {
             return ResponseEntity.ok("No customer found!");
         }
         return ResponseEntity.ok(customer.get());
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveMember(String firstName , String lastName
-            , String Email , String Address , String phoneNumber , String username , String password , Long CardId)
-    {
+    public ResponseEntity<?> saveMember(String firstName, String lastName
+            , String Email, String Address, String phoneNumber, String username, String password, Long CardId) {
         //Вземаме карта по Id понеже са предефинирани :p
         Card card = cardRepo.findById(CardId).get();
 
         //Ако няма друг клинт с това име го добавяме в базата данни
-        if(memberRepo.findMemberByFirstNameAndLastNameAndEmailAndAddressAndPhoneNumberAndUsernameAndPassword(
-                firstName , lastName , Email , Address , phoneNumber , username , password
-        ).isEmpty())
-        {
-            Member m = new Member(firstName , lastName , Email , Address , username , password , phoneNumber , card);
+        if (memberRepo.findMemberByFirstNameAndLastNameAndEmailAndAddressAndPhoneNumberAndUsernameAndPassword(
+                firstName, lastName, Email, Address, phoneNumber, username, password
+        ).isEmpty()) {
+            Member m = new Member(firstName, lastName, Email, Address, username, password, phoneNumber, card);
             memberRepo.save(m);
             return ResponseEntity.ok("Member was saved");
-        }
-
-        else return ResponseEntity.ok("Member  is already registered!");
+        } else return ResponseEntity.badRequest().body("Member  is already registered!");
     }
+}
 
 
     /*public boolean isNewMember(Member member)
@@ -78,5 +72,7 @@ public class MemberController {
 
         return false;
     }
-*/
-}
+
+
+     */
+

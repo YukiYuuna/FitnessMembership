@@ -1,16 +1,17 @@
 package com.FitnessMembership.FitnessMembership.Entities.Employees;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Employee {
 
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id;
+    private Long Id;
+
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     private String firstName;
 
@@ -20,15 +21,13 @@ public class Employee {
 
     private String corporateNum;
 
-    private long roleId;
-
-    public Employee(String firstName, String lastName, String email, String corporateNum, long roleId) {
+    public Employee(String firstName, String lastName, String email, String corporateNum) {
         this.firstName = firstName;
         this.lastName = lastName;
-        Email = email;
+        this.Email = email;
         this.corporateNum = corporateNum;
-        this.roleId = roleId;
     }
+
 
     public Employee() {
     }
@@ -65,15 +64,9 @@ public class Employee {
         return corporateNum;
     }
 
+
     public void setCorporateNum(String corporateNum) {
         this.corporateNum = corporateNum;
     }
 
-    public long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(long roleId) {
-        this.roleId = roleId;
-    }
 }
