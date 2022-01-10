@@ -10,4 +10,6 @@ import java.util.Set;
 public interface ServiceRepository extends JpaRepository<Services, Long> {
 
     Services findServiceByServiceName(String Name);
+
+    Set<Services> findAllByServiceName (String Name);
 }

@@ -29,7 +29,6 @@ public class Member {
 
     @OneToOne
     @JoinColumn(name = "card_id")
-    @JsonIgnore
     private Card card;
 
     public Member() {
@@ -105,7 +104,6 @@ public class Member {
     public void setCard(Card card) {
         this.card = card;
     }
-
 
     public String getAddress() {
         return address;

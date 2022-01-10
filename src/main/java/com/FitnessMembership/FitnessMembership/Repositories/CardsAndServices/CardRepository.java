@@ -10,6 +10,4 @@ import java.util.Set;
 public interface CardRepository extends JpaRepository<Card, Long> {
     Card findByService(Services service);
 
-    Set<Card> findAllByService(String serviceName);
-
 }

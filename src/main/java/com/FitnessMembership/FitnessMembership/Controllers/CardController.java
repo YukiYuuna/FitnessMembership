@@ -27,7 +27,7 @@ public class CardController {
         this.memberRepo = memberRepo;
     }
 
-/*
+
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteCard(Long CardId){
         Optional<Card> card = cardRepo.findById(CardId);
@@ -43,11 +43,10 @@ public class CardController {
     public ResponseEntity<?> getCard(Long id){
         Optional<Card> card = cardRepo.findById(id);
         if (card.isEmpty()){
-            return ResponseEntity.ok("nqma takava karta");
+            return ResponseEntity.ok("nqaa takava karta");
         }
     return ResponseEntity.ok(card.get());
-    }*/
-
+    }
 
     @PostMapping( "/save" )
     public ResponseEntity<?> saveCard(@RequestBody CardRequest cardRequest)
@@ -55,23 +54,21 @@ public class CardController {
 
         if(!validateTimePeriod(cardRequest.getSubscriptionPeriod()))
         {
-            return  ResponseEntity.badRequest().body("Tupi ti sa mesecite");
+            return  ResponseEntity.ok("Tupi ti sa mesecite");
         }
                 Set<Services> foundServices = new HashSet<>();
                 Set<Services> inputtedServices = cardRequest.getCardServices();
                 for (Services service: inputtedServices) {
                     if(serviceRepo.findServiceByServiceName(service.getServiceName()) == null ){
-                       return ResponseEntity.badRequest().body("Mnogo iskash");
+                       return ResponseEntity.ok("Mnogo uslugi iskash, malko predlagame");
                     } else
                     foundServices.add(serviceRepo.findServiceByServiceName(service.getServiceName()));
-
                 }
-
                 Card card = new Card(cardRequest.getSubscriptionPeriod(),
                         cardRequest.isWoman(), memberRepo.findMemberByEmail(cardRequest.getMemberemail()), foundServices);
                 cardRepo.save(card);
 
-                return ResponseEntity.ok("Ehoo prostachkoo imash karta" );
+                return ResponseEntity.ok("Shefche nova imash karta veche" );
         }
     /*    public boolean validateService(Services serviceDb, Services inputService ){
 

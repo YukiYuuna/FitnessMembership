@@ -30,14 +30,18 @@ public class ServiceController {
     @DeleteMapping("/delete")
     public ResponseEntity<?>deleteService(String serviceName) {
 
-        Services service = serviceRepo.findServiceByServiceName(serviceName);
-        Set<Card> cards = cardRepo.findAllByService(service.getServiceName());
+        Set<Services> services = serviceRepo.findAllByServiceName(serviceName);
+        Set<Card> cards = new HashSet<>();
 
-        for (Card card : cards) {
-            if (card.getService() == service)
-                cardRepo.delete(card);
+        for (Services service : services) {
+
+            cards.add(cardRepo.findByService(service));
+
         }
-            serviceRepo.delete(service);
+        if (!cards.isEmpty())
+            cardRepo.deleteAll(cards);
+
+        serviceRepo.deleteAll(services);
             return ResponseEntity.ok("Service deleted!");
     }
 
@@ -45,10 +49,7 @@ public class ServiceController {
     public ResponseEntity<?> saveService(String serviceName , String description) {
 
         return ResponseEntity.ok(serviceRepo.save(new Services(serviceName , description)));
-
     }
-
-
 
 
     /*@PostMapping("save")

@@ -2,6 +2,7 @@ package com.FitnessMembership.FitnessMembership.Entities.CardsAndServices;
 
 import com.FitnessMembership.FitnessMembership.Entities.Employees.Employee;
 import com.FitnessMembership.FitnessMembership.Entities.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -30,6 +31,7 @@ public class Card {
     private LocalDate expirationDate;
 
     @OneToOne(mappedBy = "card")
+    @JsonIgnore
     private Member member;
 
     @ManyToMany

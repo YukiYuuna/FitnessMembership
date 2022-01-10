@@ -9,18 +9,18 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+
     @OneToOne(mappedBy = "role")
     private Employee employee;
 
-    private String Name;
+    private String name;
 
     public Role() {
     }
 
-    public Role(Long id, String name,Employee employee) {
-        Id = id;
-        Name = name;
-        this.employee = employee;
+    public Role(String name) {
+        this.name = name;
+
     }
 
     public Long getId() {
@@ -36,11 +36,11 @@ public class Role {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 }
 

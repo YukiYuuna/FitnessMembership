@@ -1,5 +1,7 @@
 package com.FitnessMembership.FitnessMembership.Entities.Employees;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class Employee {
     private Long Id;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "role_id")
     private Role role;
 
@@ -17,17 +20,14 @@ public class Employee {
 
     private String lastName;
 
-    private String Email;
+    private String email;
 
-    private String corporateNum;
-
-    public Employee(String firstName, String lastName, String email, String corporateNum) {
+    public Employee(String firstName, String lastName, String email, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.Email = email;
-        this.corporateNum = corporateNum;
+        this.email = email;
+        this.role = role;
     }
-
 
     public Employee() {
     }
@@ -53,20 +53,16 @@ public class Employee {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
-    public String getCorporateNum() {
-        return corporateNum;
-    }
+    public Role getRole() { return role;}
 
+    public void setRole(Role role) { this.role = role; }
 
-    public void setCorporateNum(String corporateNum) {
-        this.corporateNum = corporateNum;
-    }
 
 }

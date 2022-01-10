@@ -39,8 +39,9 @@ public class MemberController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteMember(Long memberId){
+    public ResponseEntity<?> deleteMember(Long memberId) {
         //Member member = memberRepo.getById(memberId);
+        //da se dopulni s dependancy delete
         memberRepo.deleteById(memberId);
         return ResponseEntity.ok("member was deleted");
     }
@@ -48,36 +49,25 @@ public class MemberController {
     @PostMapping("/save")
     public ResponseEntity<?> saveMember(String firstName, String lastName
             , String email, String address, String phoneNumber, String username, String password, Long CardId) {
-        //Вземаме карта по Id понеже са предефинирани :p
-        Card card = cardRepo.findById(CardId).get();
 
-        //Ако няма друг клинт с това име го добавяме в базата данни
-        if (memberRepo.findMemberByFirstNameAndLastNameAndEmailAndAddressAndPhoneNumberAndUsernameAndPassword(
-                firstName, lastName, email, address, phoneNumber, username, password
-        ).isEmpty()) {
-            Member m = new Member(firstName, lastName, email, address, username, password, phoneNumber, card);
-            memberRepo.save(m);
-            return ResponseEntity.ok("Member was saved");
-        } else return ResponseEntity.badRequest().body("Member  is already registered!");
+        Card card = cardRepo.findById(CardId).get();
+        Member existedMember = memberRepo.findMemberByCard(card);
+
+
+        if (existedMember == null) {
+            return ResponseEntity.ok(memberRepo.save(new Member(firstName, lastName, email, address, username, password, phoneNumber, card)));
+        }
+        else {
+            existedMember.setFirstName(firstName);
+            existedMember.setLastName(lastName);
+            existedMember.setEmail(email);
+            existedMember.setAddress(address);
+            existedMember.setUsername(username);
+            existedMember.setPassword(password);
+            existedMember.setPhoneNumber(phoneNumber);
+            memberRepo.save(existedMember);
+            return ResponseEntity.ok(existedMember);
+        }
     }
 }
-
-
-    /*public boolean isNewMember(Member member)
-    {
-        Optional<Member> _member = memberRepo.findMemberByFirstNameAndLastName(member.getFirstName() , member.getLastName());
-
-        if((member.getFirstName().isEmpty())
-                || (member.getAddress() != _member.get().getAddress()
-                && member.getPhoneNumber() != _member.get().getPhoneNumber()
-                && member.getEmail() != _member.get().getEmail())
-                && member.getUsername() != _member.get().getUsername()
-                && member.getPassword() != _member.get().getPassword())
-        return true;
-
-        return false;
-    }
-
-
-     */
 

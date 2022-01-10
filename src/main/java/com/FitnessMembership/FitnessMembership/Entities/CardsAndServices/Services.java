@@ -9,7 +9,7 @@ import java.util.Set;
 public class Services {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id;
+    private Long Id;
 
 
     private String serviceName;
