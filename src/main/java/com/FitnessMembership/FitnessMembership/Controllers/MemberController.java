@@ -26,10 +26,8 @@ public class MemberController {
     public ResponseEntity<?> GetAllMembers() {
         if (memberRepo.findAll().isEmpty())
             return ResponseEntity.noContent().build();
-
         return ResponseEntity.ok(memberRepo.findAll());
     }
-
 
     @GetMapping("/find")
     public ResponseEntity<?> findMember(String firstName, String lastName) {
@@ -40,17 +38,24 @@ public class MemberController {
         return ResponseEntity.ok(customer.get());
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteMember(Long memberId){
+        //Member member = memberRepo.getById(memberId);
+        memberRepo.deleteById(memberId);
+        return ResponseEntity.ok("member was deleted");
+    }
+
     @PostMapping("/save")
     public ResponseEntity<?> saveMember(String firstName, String lastName
-            , String Email, String Address, String phoneNumber, String username, String password, Long CardId) {
+            , String email, String address, String phoneNumber, String username, String password, Long CardId) {
         //Вземаме карта по Id понеже са предефинирани :p
         Card card = cardRepo.findById(CardId).get();
 
         //Ако няма друг клинт с това име го добавяме в базата данни
         if (memberRepo.findMemberByFirstNameAndLastNameAndEmailAndAddressAndPhoneNumberAndUsernameAndPassword(
-                firstName, lastName, Email, Address, phoneNumber, username, password
+                firstName, lastName, email, address, phoneNumber, username, password
         ).isEmpty()) {
-            Member m = new Member(firstName, lastName, Email, Address, username, password, phoneNumber, card);
+            Member m = new Member(firstName, lastName, email, address, username, password, phoneNumber, card);
             memberRepo.save(m);
             return ResponseEntity.ok("Member was saved");
         } else return ResponseEntity.badRequest().body("Member  is already registered!");

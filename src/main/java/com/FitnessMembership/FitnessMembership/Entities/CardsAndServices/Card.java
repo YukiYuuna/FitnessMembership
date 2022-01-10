@@ -1,5 +1,8 @@
 package com.FitnessMembership.FitnessMembership.Entities.CardsAndServices;
 
+import com.FitnessMembership.FitnessMembership.Entities.Employees.Employee;
+import com.FitnessMembership.FitnessMembership.Entities.Member;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -14,50 +17,37 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    private int abonamentPeriod;
 
-    private Boolean valid;
+    private int Price;
 
-    //При всяко повторно зареждане на картата ще бъде зададена дата на зареждането в конструктора
+    private boolean gender;
+
+    private boolean valid;
+
     private Timestamp cardCharged;
 
     private LocalDate expirationDate;
 
-    private int abonamentPeriod;
+    @OneToOne(mappedBy = "card")
+    private Member member;
 
-    //Макс брой посещения - месец
+    @ManyToMany
+    @JoinTable(
+            name = "card_services",
+            joinColumns = @JoinColumn(name = "card_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id")
+    )
+    private Set<Services> service;
 
-    public Card(int price) {
-        Price = price;
+    public Card() {
     }
-
-    private int Price = 0;
-
-    private boolean gender;
-
-    //Ще брой броя на посещенията и ще се нулира в конструктора ;)
-    //private int visitsCounter;
-
-    @OneToMany(mappedBy = "card")
-    private Set<CardServices> card;
-
-    public Set<CardServices> getCard() {
-        return card;
-    }
-
-    public void setCard(Set<CardServices> card) {
-        this.card = card;
-    }
-
-    /*  @ManyToMany
-            @JoinTable(name = "CardServices"
-            , joinColumns = @JoinColumn(name = "CardId"),
-                    inverseJoinColumns = @JoinColumn(name = "ServiceId"))
-        List<Services> CardServices;
-*/
 
     //Нова карта ще създаваме само с абонаментен период и видове услуги , другите полета си ги призчисляваме
     // и са си за нас
-    public Card(int abonamentPeriod ,  List<Services> cardServices , boolean gender) {
+    public Card(int abonamentPeriod , boolean gender, Member member, Set<Services> service) {
+        this.member = member;
+        this.service = service;
         if(gender)
         {
             Price += 40;
@@ -67,14 +57,10 @@ public class Card {
         {
             Price += 60;
         }
-
      //   this.CardServices = cardServices;
-        Price += 10*cardServices.size();
-
-
+        Price += 10*service.size();
         //При създаване абонамента е задължителен , тъй че по дефоут е валидна
         this.valid = true;
-
 
         this.cardCharged = new Timestamp(System.currentTimeMillis());
 
@@ -86,13 +72,34 @@ public class Card {
     }
 
 
-    public Card() {
-    }
 
     public Long getId() {
         return Id;
     }
 
+    public Set<Services> getService() {
+        return service;
+    }
+
+    public void setService(Set<Services> service) {
+        this.service = service;
+    }
+
+    public int getAbonamentPeriod() {
+        return abonamentPeriod;
+    }
+
+    public void setAbonamentPeriod(int abonamentPeriod) {
+        this.abonamentPeriod = abonamentPeriod;
+    }
+
+    public int getPrice() {
+        return Price;
+    }
+
+    public void setPrice(int price) {
+        Price = price;
+    }
 
     public boolean isGender() {
         return gender;
@@ -102,19 +109,35 @@ public class Card {
         this.gender = gender;
     }
 
-    public Boolean getValid() {
+    public boolean isValid() {
         return valid;
     }
 
-    public void setValid(Boolean valid) {
+    public void setValid(boolean valid) {
         this.valid = valid;
     }
 
-   /* public List<Services> getCardServices() {
-        return CardServices;
+    public Timestamp getCardCharged() {
+        return cardCharged;
     }
-*/
+
+    public void setCardCharged(Timestamp cardCharged) {
+        this.cardCharged = cardCharged;
+    }
+
     public LocalDate getExpirationDate() {
         return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 }

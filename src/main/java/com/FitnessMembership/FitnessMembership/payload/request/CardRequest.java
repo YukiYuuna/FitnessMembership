@@ -1,11 +1,15 @@
 package com.FitnessMembership.FitnessMembership.payload.request;
 
 import com.FitnessMembership.FitnessMembership.Entities.CardsAndServices.Services;
+import com.FitnessMembership.FitnessMembership.Entities.Member;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 public class CardRequest implements Serializable{
+
+    private String memberemail;
 
     public boolean isWoman() {
         return isWoman;
@@ -19,7 +23,15 @@ public class CardRequest implements Serializable{
 
     private int abonamentPeriod;
 
-    private List<Services> cardServices;
+    private Set<Services> cardServices;
+
+    public String getMemberemail() {
+        return memberemail;
+    }
+
+    public void setMemberemail(String memberemail) {
+        this.memberemail = memberemail;
+    }
 
     public int getSubscriptionPeriod() {
         return abonamentPeriod;
@@ -29,11 +41,11 @@ public class CardRequest implements Serializable{
         this.abonamentPeriod = abonamentPeriod;
     }
 
-    public List<Services> getCardServices() {
+    public Set<Services> getCardServices() {
         return cardServices;
     }
 
-    public void setCardServices(List<Services> cardServices) {
+    public void setCardServices(Set<Services> cardServices) {
         this.cardServices = cardServices;
     }
 }

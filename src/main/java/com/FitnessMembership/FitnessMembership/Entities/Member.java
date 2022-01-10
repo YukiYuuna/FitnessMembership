@@ -1,6 +1,7 @@
 package com.FitnessMembership.FitnessMembership.Entities;
 
 import com.FitnessMembership.FitnessMembership.Entities.CardsAndServices.Card;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -25,10 +26,11 @@ public class Member {
 
     private String phoneNumber;
 
-    @ManyToOne ()
 
-
-    private Card card = new Card();
+    @OneToOne
+    @JoinColumn(name = "card_id")
+    @JsonIgnore
+    private Card card;
 
     public Member() {
     }
